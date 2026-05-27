@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontakt FriVilje</title>
+  <meta name="description" content="Send spørsmål, forespørsler eller meld deg på oppdateringer fra FriVilje.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body class="page-contact">
+  <a class="skip-link" href="#mainContent">Hopp til hovedinnhold</a>
+  <div class="bg-art" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="/index.html" aria-label="FriVilje hjem">
+      <span class="brand-mark" aria-hidden="true">F</span>
+      <span id="brandName" class="brand-text">FriVilje</span>
+    </a>
+
+    <button id="menuToggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="mainNav">
+      Meny
+    </button>
+
+    <nav id="mainNav" class="main-nav" aria-label="Hovedmeny">
+      <a href="/index.html">Hjem</a>
+      <a href="/om.html">Om FriVilje</a>
+      <a href="/kontakt.html" aria-current="page">Kontakt</a>
+    </nav>
+  </header>
+
+  <main id="mainContent" class="page-shell">
+    <section class="section-card hero-subpage" aria-labelledby="contactTitle">
+      <div class="hero-copy reveal">
+        <p id="contactKicker" class="kicker">Kontakt oss</p>
+        <h1 id="contactTitle">Spørsmål, forespørsel eller samarbeid</h1>
+        <p id="contactLead" class="lead-text">Send oss en melding, så svarer vi så fort vi kan.</p>
+      </div>
+
+      <div class="hero-media reveal">
+        <img
+          id="contactHeroImage"
+          src="https://images.pexels.com/photos/6339459/pexels-photo-6339459.jpeg?auto=compress&cs=tinysrgb&w=1400"
+          alt="FriVilje fellesskap"
+          loading="lazy"
+        >
+      </div>
+    </section>
+
+    <section class="section-card contact-grid">
+      <article class="form-card reveal">
+        <h2 id="contactInquiryTitle">Forespørsel</h2>
+        <form id="inquiryForm" novalidate>
+          <label for="inquiryName">Navn</label>
+          <input id="inquiryName" name="name" type="text" autocomplete="name" required>
+
+          <label for="inquiryEmail">E-post</label>
+          <input id="inquiryEmail" name="email" type="email" autocomplete="email" required>
+
+          <label for="inquiryType">Tema</label>
+          <select id="inquiryType" name="type" required>
+            <option value="">Velg tema</option>
+            <option value="general">Generelt spørsmål</option>
+            <option value="activity">Deltakelse i aktivitet</option>
+            <option value="partnership">Samarbeid</option>
+          </select>
+
+          <label for="inquiryMessage">Melding</label>
+          <textarea id="inquiryMessage" name="message" rows="6" required></textarea>
+
+          <button class="btn btn-primary" type="submit">Send melding</button>
+          <p id="inquiryStatus" class="status" aria-live="polite"></p>
+        </form>
+      </article>
+
+      <article id="oppdateringer" class="form-card highlight-card reveal">
+        <h2 id="contactNewsletterTitle">Få oppdateringer på e-post</h2>
+        <p id="contactNewsletterLead">Få invitasjoner til aktiviteter, annonser og nyheter fra FriVilje.</p>
+
+        <form id="newsletterForm" novalidate>
+          <label for="newsletterName">Navn (valgfritt)</label>
+          <input id="newsletterName" name="name" type="text" autocomplete="name">
+
+          <label for="newsletterEmail">E-post</label>
+          <input id="newsletterEmail" name="email" type="email" autocomplete="email" required>
+
+          <button class="btn btn-primary" type="submit">Meld meg på</button>
+          <p id="newsletterStatus" class="status" aria-live="polite"></p>
+        </form>
+      </article>
+    </section>
+
+    <section class="section-card contact-support" aria-labelledby="accessibilityHeading">
+      <div class="content-card reveal">
+        <p class="kicker">Tilgjengelighet</p>
+        <h2 id="accessibilityHeading">Vi tilrettelegger for deltakelse</h2>
+        <p>Har du behov for tilpasning i aktivitetene, kan du skrive det i meldingen. Vi svarer med forslag slik at flere kan delta trygt og på egne premisser.</p>
+      </div>
+      <figure class="photo-card reveal">
+        <img src="https://images.pexels.com/photos/11440885/pexels-photo-11440885.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Deltakere i rolig gruppeøkt med fokus på tilrettelegging" loading="lazy">
+      </figure>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><span id="footerBrand">FriVilje</span> © <span class="year"></span> | <span id="footerTagline">Vi bygger plass til flere.</span></p>
+  </footer>
+</body>
+</html>
