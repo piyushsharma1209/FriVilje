@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260527d">
-  <script src="admin.js?v=20260527d" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20260527e">
+  <script src="admin.js?v=20260527e" defer></script>
 </head>
 <body class="page-admin">
   <a class="skip-link" href="#adminMain">Hopp til admin-innhold</a>
@@ -25,10 +25,10 @@
   </header>
 
   <main id="adminMain" class="page-shell admin-shell">
-    <aside class="section-card admin-aside reveal">
+    <aside class="section-card admin-aside reveal" aria-labelledby="adminOverviewTitle">
       <p class="kicker">Sikret område</p>
-      <h1>Rediger eksisterende innhold</h1>
-      <p>Her endrer du tekst, knapper og bilder som allerede finnes på nettsiden. Ingen koding nødvendig.</p>
+      <h1 id="adminOverviewTitle" class="admin-overview-title">Rediger eksisterende innhold</h1>
+      <p class="admin-overview-lead">Her endrer du tekst, knapper og bilder som allerede finnes på nettsiden. Ingen koding nødvendig.</p>
 
       <nav class="admin-shortcuts" aria-label="Snarveier">
         <a href="#contentForm">Sideinnhold</a>
