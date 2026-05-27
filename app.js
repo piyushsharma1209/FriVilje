@@ -1,5 +1,8 @@
 const API_ROOT = "/api";
 const API_BASE_STORAGE_KEY = "frivilje_api_base";
+const CONTACT_EMAIL = "post@frivilje.com";
+const INQUIRY_FORM_NAME = "frivilje-kontakt";
+const NEWSLETTER_FORM_NAME = "frivilje-oppdateringer";
 
 const DEFAULT_CONTENT = Object.freeze({
   brandName: "FriVilje",
@@ -350,15 +353,29 @@ async function handleInquirySubmit(event) {
   if (!payload.name || !payload.email || !payload.type || !payload.message) {
     return setStatus(elements.inquiryStatus, "Fyll ut alle feltene før du sender.", true);
   }
+  if (!isValidEmail(payload.email)) {
+    return setStatus(elements.inquiryStatus, "Skriv inn en gyldig e-postadresse.", true);
+  }
 
   try {
-    await fetchJson(`${API_ROOT}/inquiries`, {
-      method: "POST",
-      body: JSON.stringify(payload)
-    });
+    const [mailResult, apiResult] = await Promise.allSettled([
+      submitNetlifyForm(INQUIRY_FORM_NAME, payload),
+      fetchJson(`${API_ROOT}/inquiries`, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      })
+    ]);
+
+    if (mailResult.status === "rejected" && apiResult.status === "rejected") {
+      throw mailResult.reason || apiResult.reason || new Error("Kunne ikke sende melding.");
+    }
 
     elements.inquiryForm.reset();
-    setStatus(elements.inquiryStatus, "Takk! Meldingen er sendt.");
+    if (mailResult.status === "fulfilled") {
+      setStatus(elements.inquiryStatus, `Takk! Meldingen er sendt til ${CONTACT_EMAIL}.`);
+    } else {
+      setStatus(elements.inquiryStatus, `Meldingen er mottatt. Hvis du ikke får bekreftelse, send oss direkte på ${CONTACT_EMAIL}.`);
+    }
   } catch (error) {
     setStatus(elements.inquiryStatus, error.message || "Kunne ikke sende melding.", true);
   }
@@ -380,22 +397,65 @@ async function handleNewsletterSubmit(event) {
   if (!payload.email) {
     return setStatus(elements.newsletterStatus, "Skriv inn e-post for å melde deg på.", true);
   }
+  if (!isValidEmail(payload.email)) {
+    return setStatus(elements.newsletterStatus, "Skriv inn en gyldig e-postadresse.", true);
+  }
 
   try {
-    const data = await fetchJson(`${API_ROOT}/newsletter`, {
-      method: "POST",
-      body: JSON.stringify(payload)
-    });
+    const [mailResult, apiResult] = await Promise.allSettled([
+      submitNetlifyForm(NEWSLETTER_FORM_NAME, payload),
+      fetchJson(`${API_ROOT}/newsletter`, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      })
+    ]);
+
+    if (mailResult.status === "rejected" && apiResult.status === "rejected") {
+      throw mailResult.reason || apiResult.reason || new Error("Kunne ikke melde deg på.");
+    }
 
     elements.newsletterForm.reset();
 
-    if (data.alreadyExists) {
-      setStatus(elements.newsletterStatus, "Denne e-posten er allerede registrert.");
+    let alreadyExists = false;
+    if (apiResult.status === "fulfilled" && apiResult.value && apiResult.value.alreadyExists) {
+      alreadyExists = true;
+    }
+
+    if (alreadyExists) {
+      setStatus(elements.newsletterStatus, `Denne e-posten er allerede registrert hos ${CONTACT_EMAIL}.`);
+    } else if (mailResult.status === "fulfilled") {
+      setStatus(elements.newsletterStatus, `Supert! Du er påmeldt, og oppfølging går til ${CONTACT_EMAIL}.`);
     } else {
-      setStatus(elements.newsletterStatus, "Supert! Du er påmeldt oppdateringer.");
+      setStatus(elements.newsletterStatus, `Påmeldingen er registrert. Send gjerne en e-post til ${CONTACT_EMAIL} ved spørsmål.`);
     }
   } catch (error) {
     setStatus(elements.newsletterStatus, error.message || "Kunne ikke melde deg på.", true);
+  }
+}
+
+async function submitNetlifyForm(formName, payload) {
+  const body = new URLSearchParams();
+  body.set("form-name", formName);
+
+  for (const [key, value] of Object.entries(payload || {})) {
+    body.set(key, String(value || ""));
+  }
+
+  let response;
+  try {
+    response = await fetch("/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: body.toString()
+    });
+  } catch {
+    throw new Error("Kunne ikke sende henvendelsen.");
+  }
+
+  if (!response.ok) {
+    throw new Error(`Kunne ikke sende henvendelsen (${response.status}).`);
   }
 }
 
@@ -631,4 +691,8 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+}
+
+function isValidEmail(value) {
+  return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/i.test(String(value || "").trim());
 }
