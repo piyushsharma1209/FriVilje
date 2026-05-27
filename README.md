@@ -34,6 +34,12 @@ Legg disse inn i Netlify:
 
 - `ADMIN_USER` (f.eks. `frivilje`)
 - `ADMIN_PASSWORD` (sett et sterkt passord)
+- `CONTACT_EMAIL` (f.eks. `post@frivilje.com`)
+
+For faktisk e-postlevering fra API (anbefalt):
+
+- `RESEND_API_KEY`
+- `RESEND_FROM_EMAIL` (f.eks. `FriVilje <noreply@frivilje.com>`)
 
 `ADMIN_SESSION_SECRET` er ikke nødvendig i funksjonsvarianten.
 
@@ -49,16 +55,14 @@ Legg disse inn i Netlify:
 
 ## Kontakt og påmelding til e-post
 
-Skjemaene på `/kontakt.html` sender via Netlify Forms med navn:
+Skjemaene på `/kontakt.html` gjør nå to ting:
 
-- `frivilje-kontakt`
-- `frivilje-oppdateringer`
+1. lagrer data i API (`/api/inquiries` og `/api/newsletter`)
+2. sender varsling til `CONTACT_EMAIL` via Resend (hvis konfigurert)
 
-For at alle henvendelser skal gå til `post@frivilje.com`:
+Hvis Resend ikke er konfigurert, blir henvendelsen fortsatt lagret og synlig i adminpanelet under:
 
-1. Gå til Netlify Dashboard → **Forms**.
-2. Åpne **Notifications** for skjemaene over.
-3. Sett mottaker til `post@frivilje.com`.
+- **Henvendelser og oppmeldinger**
 
 ## Hvis du bruker VS Code Live Server lokalt
 
@@ -79,6 +83,8 @@ Hvis du åpner `admin.html` via Live Server (f.eks. `http://127.0.0.1:5500`):
 - `PUT /api/site-content` (admin)
 - `POST /api/inquiries`
 - `POST /api/newsletter`
+- `GET /api/inquiries` (admin)
+- `GET /api/newsletter` (admin)
 
 ## Feilsøking (Netlify 502 / lagring)
 
