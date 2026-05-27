@@ -829,6 +829,12 @@ select:focus {
 
 /* Admin */
 
+.page-admin .reveal {
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+
 .section-card {
   border: 1px solid rgba(171, 204, 245, 0.3);
   border-radius: 24px;
@@ -843,7 +849,7 @@ select:focus {
 
 .admin-shell {
   display: grid;
-  grid-template-columns: 310px minmax(0, 1fr);
+  grid-template-columns: minmax(340px, 390px) minmax(0, 1fr);
   gap: 1rem;
   align-items: start;
 }
@@ -851,8 +857,25 @@ select:focus {
 .admin-aside {
   position: sticky;
   top: 1rem;
+  align-self: start;
   display: grid;
   gap: 0.8rem;
+  min-width: 0;
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  scrollbar-gutter: stable;
+  padding-right: 0.2rem;
+}
+
+.admin-overview-title {
+  font-size: clamp(1.35rem, 2vw, 1.95rem);
+  line-height: 1.28;
+  overflow-wrap: anywhere;
+}
+
+.admin-overview-lead {
+  font-size: 1rem;
+  line-height: 1.55;
 }
 
 .admin-aside p {
@@ -862,6 +885,7 @@ select:focus {
 
 .admin-shortcuts {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.45rem;
 }
 
@@ -905,6 +929,7 @@ select:focus {
 .admin-main {
   display: grid;
   gap: 1rem;
+  min-width: 0;
 }
 
 .section-head {
@@ -960,6 +985,7 @@ details[open] summary {
 .admin-forms-layout {
   display: grid;
   gap: 0.8rem;
+  min-width: 0;
 }
 
 .admin-posts {
@@ -1005,6 +1031,23 @@ details[open] summary {
   border-color: rgba(141, 255, 240, 0.54);
 }
 
+@media (max-width: 1260px) {
+  .admin-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-aside {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .admin-shortcuts {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 1120px) {
   .hero-sweep,
   .activity-arc,
@@ -1022,14 +1065,6 @@ details[open] summary {
 
   .river-track {
     grid-template-columns: 1fr 1fr;
-  }
-
-  .admin-shell {
-    grid-template-columns: 1fr;
-  }
-
-  .admin-aside {
-    position: static;
   }
 }
 
