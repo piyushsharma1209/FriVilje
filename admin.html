@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FriVilje Admin</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="admin.js" defer></script>
+</head>
+<body class="page-admin">
+  <a class="skip-link" href="#adminMain">Hopp til admin-innhold</a>
+  <div class="bg-art" aria-hidden="true"></div>
+
+  <header class="site-header admin-header">
+    <a class="brand" href="/index.html" aria-label="FriVilje hjem">
+      <span class="brand-mark" aria-hidden="true">F</span>
+      <span class="brand-text">FriVilje Admin</span>
+    </a>
+    <a class="btn btn-ghost" href="/index.html">Til offentlig side</a>
+  </header>
+
+  <main id="adminMain" class="page-shell admin-shell">
+    <aside class="section-card admin-aside reveal">
+      <p class="kicker">Sikret område</p>
+      <h1>Rediger eksisterende innhold</h1>
+      <p>Her endrer du tekst, knapper og bilder som allerede finnes på nettsiden. Ingen koding nødvendig.</p>
+
+      <nav class="admin-shortcuts" aria-label="Snarveier">
+        <a href="#contentForm">Sideinnhold</a>
+        <a href="#postForm">Aktiviteter og annonser</a>
+      </nav>
+
+      <form id="connectionForm" class="connection-form" novalidate>
+        <label for="apiBaseInput">API-adresse</label>
+        <input id="apiBaseInput" name="apiBase" type="text" placeholder="http://127.0.0.1:8080/api">
+
+        <label for="adminUserInput">Admin-bruker (valgfritt)</label>
+        <input id="adminUserInput" name="adminUser" type="text" autocomplete="username" placeholder="frivilje">
+
+        <label for="adminPasswordInput">Admin-passord (valgfritt)</label>
+        <input id="adminPasswordInput" name="adminPassword" type="password" autocomplete="current-password" placeholder="Skriv passord hvis du bruker Live Server">
+
+        <div class="row-actions">
+          <button class="btn btn-soft" type="submit">Koble til API</button>
+          <button id="clearAuthBtn" class="btn btn-ghost" type="button">Fjern innlogging</button>
+        </div>
+        <p id="connectionStatus" class="status" aria-live="polite"></p>
+      </form>
+
+      <div class="admin-tip">
+        <strong>Tips</strong>
+        <p>Hvis du åpner siden med VS Code Live Server (ofte port 5500), sett API-adresse til `http://127.0.0.1:8080/api`.</p>
+        <p>Hvis du åpner via `/admin` på backend, kan du la innloggingsfeltene stå tomme.</p>
+        <p>Her redigerer du eksisterende felter på nettsiden. Nye seksjoner opprettes ikke her.</p>
+      </div>
+    </aside>
+
+    <section class="admin-main">
+      <article class="section-card form-card reveal">
+        <div class="section-head">
+          <p class="kicker">Innholdsstyring</p>
+          <h2>Rediger sideinnhold</h2>
+          <p>Disse feltene oppdaterer det som vises på Hjem, Om og Kontakt.</p>
+        </div>
+
+        <form id="contentForm" novalidate>
+          <details open>
+            <summary>Felles innhold</summary>
+
+            <label for="brandNameInput">Navn på organisasjon</label>
+            <input id="brandNameInput" name="brandName" type="text" required>
+
+            <label for="footerTaglineInput">Footer-tekst</label>
+            <input id="footerTaglineInput" name="footerTagline" type="text" required>
+          </details>
+
+          <details>
+            <summary>Hjem</summary>
+
+            <label for="homeKickerInput">Kicker</label>
+            <input id="homeKickerInput" name="homeKicker" type="text" required>
+
+            <label for="homeTitleInput">Tittel</label>
+            <input id="homeTitleInput" name="homeTitle" type="text" required>
+
+            <label for="homeLeadInput">Introtekst</label>
+            <textarea id="homeLeadInput" name="homeLead" rows="4" required></textarea>
+
+            <label for="homePrimaryLabelInput">Primær knappetekst</label>
+            <input id="homePrimaryLabelInput" name="homePrimaryLabel" type="text" required>
+
+            <label for="homePrimaryHrefInput">Primær knappelenke</label>
+            <input id="homePrimaryHrefInput" name="homePrimaryHref" type="text" required>
+
+            <label for="homeSecondaryLabelInput">Strava-knappetekst</label>
+            <input id="homeSecondaryLabelInput" name="homeSecondaryLabel" type="text" required>
+
+            <label for="homeSecondaryHrefInput">Strava-knappelenke</label>
+            <input id="homeSecondaryHrefInput" name="homeSecondaryHref" type="text" required>
+
+            <label for="homeHeroImageInput">Hero-bilde URL</label>
+            <input id="homeHeroImageInput" name="homeHeroImage" type="text" required>
+
+            <label for="homeHeroImageAltInput">Hero-bilde alt-tekst</label>
+            <input id="homeHeroImageAltInput" name="homeHeroImageAlt" type="text" required>
+
+            <figure class="preview-image">
+              <img id="homeHeroPreview" src="" alt="Forhåndsvisning av hero-bilde for Hjem">
+            </figure>
+
+            <label for="homeFeatureImageInput">Sekundær bilde URL</label>
+            <input id="homeFeatureImageInput" name="homeFeatureImage" type="text" required>
+
+            <label for="homeFeatureImageAltInput">Sekundær bilde alt-tekst</label>
+            <input id="homeFeatureImageAltInput" name="homeFeatureImageAlt" type="text" required>
+
+            <figure class="preview-image">
+              <img id="homeFeaturePreview" src="" alt="Forhåndsvisning av sekundærbilde for Hjem">
+            </figure>
+
+            <label for="homeStat1TitleInput">Stat 1 tittel</label>
+            <input id="homeStat1TitleInput" name="homeStat1Title" type="text" required>
+
+            <label for="homeStat1TextInput">Stat 1 tekst</label>
+            <input id="homeStat1TextInput" name="homeStat1Text" type="text" required>
+
+            <label for="homeStat2TitleInput">Stat 2 tittel</label>
+            <input id="homeStat2TitleInput" name="homeStat2Title" type="text" required>
+
+            <label for="homeStat2TextInput">Stat 2 tekst</label>
+            <input id="homeStat2TextInput" name="homeStat2Text" type="text" required>
+
+            <label for="homeStat3TitleInput">Stat 3 tittel</label>
+            <input id="homeStat3TitleInput" name="homeStat3Title" type="text" required>
+
+            <label for="homeStat3TextInput">Stat 3 tekst</label>
+            <input id="homeStat3TextInput" name="homeStat3Text" type="text" required>
+
+            <label for="homeFeature1TitleInput">Kort 1 tittel</label>
+            <input id="homeFeature1TitleInput" name="homeFeature1Title" type="text" required>
+
+            <label for="homeFeature1TextInput">Kort 1 tekst</label>
+            <textarea id="homeFeature1TextInput" name="homeFeature1Text" rows="3" required></textarea>
+
+            <label for="homeFeature2TitleInput">Kort 2 tittel</label>
+            <input id="homeFeature2TitleInput" name="homeFeature2Title" type="text" required>
+
+            <label for="homeFeature2TextInput">Kort 2 tekst</label>
+            <textarea id="homeFeature2TextInput" name="homeFeature2Text" rows="3" required></textarea>
+
+            <label for="homeFeatureCtaLabelInput">Kort 2 knappetekst</label>
+            <input id="homeFeatureCtaLabelInput" name="homeFeatureCtaLabel" type="text" required>
+
+            <label for="homeFeatureCtaHrefInput">Kort 2 knappelenke</label>
+            <input id="homeFeatureCtaHrefInput" name="homeFeatureCtaHref" type="text" required>
+          </details>
+
+          <details>
+            <summary>Om-siden</summary>
+
+            <label for="aboutKickerInput">Kicker</label>
+            <input id="aboutKickerInput" name="aboutKicker" type="text" required>
+
+            <label for="aboutTitleInput">Tittel</label>
+            <input id="aboutTitleInput" name="aboutTitle" type="text" required>
+
+            <label for="aboutHeroImageInput">Hero-bilde URL</label>
+            <input id="aboutHeroImageInput" name="aboutHeroImage" type="text" required>
+
+            <label for="aboutHeroImageAltInput">Hero-bilde alt-tekst</label>
+            <input id="aboutHeroImageAltInput" name="aboutHeroImageAlt" type="text" required>
+
+            <figure class="preview-image">
+              <img id="aboutHeroPreview" src="" alt="Forhåndsvisning av hero-bilde for Om-siden">
+            </figure>
+
+            <label for="aboutIntroInput">Introlinje</label>
+            <input id="aboutIntroInput" name="aboutIntro" type="text" required>
+
+            <label for="aboutBodyInput">Brødtekst (ett avsnitt per tom linje)</label>
+            <textarea id="aboutBodyInput" name="aboutBody" rows="12" required></textarea>
+
+            <label for="aboutRunTitleInput">Boks 1 tittel</label>
+            <input id="aboutRunTitleInput" name="aboutRunTitle" type="text" required>
+
+            <label for="aboutRunTextInput">Boks 1 tekst</label>
+            <textarea id="aboutRunTextInput" name="aboutRunText" rows="4" required></textarea>
+
+            <label for="aboutWhyTitleInput">Boks 2 tittel</label>
+            <input id="aboutWhyTitleInput" name="aboutWhyTitle" type="text" required>
+
+            <label for="aboutWhyTextInput">Boks 2 tekst</label>
+            <textarea id="aboutWhyTextInput" name="aboutWhyText" rows="4" required></textarea>
+
+            <label for="aboutStravaLabelInput">Strava-knappetekst</label>
+            <input id="aboutStravaLabelInput" name="aboutStravaLabel" type="text" required>
+
+            <label for="aboutStravaHrefInput">Strava-knappelenke</label>
+            <input id="aboutStravaHrefInput" name="aboutStravaHref" type="text" required>
+          </details>
+
+          <details>
+            <summary>Kontakt-siden</summary>
+
+            <label for="contactKickerInput">Kicker</label>
+            <input id="contactKickerInput" name="contactKicker" type="text" required>
+
+            <label for="contactTitleInput">Tittel</label>
+            <input id="contactTitleInput" name="contactTitle" type="text" required>
+
+            <label for="contactLeadInput">Introtekst</label>
+            <textarea id="contactLeadInput" name="contactLead" rows="3" required></textarea>
+
+            <label for="contactHeroImageInput">Hero-bilde URL</label>
+            <input id="contactHeroImageInput" name="contactHeroImage" type="text" required>
+
+            <label for="contactHeroImageAltInput">Hero-bilde alt-tekst</label>
+            <input id="contactHeroImageAltInput" name="contactHeroImageAlt" type="text" required>
+
+            <figure class="preview-image">
+              <img id="contactHeroPreview" src="" alt="Forhåndsvisning av hero-bilde for Kontakt-siden">
+            </figure>
+
+            <label for="contactInquiryTitleInput">Forespørsel tittel</label>
+            <input id="contactInquiryTitleInput" name="contactInquiryTitle" type="text" required>
+
+            <label for="contactNewsletterTitleInput">Nyhetsbrev tittel</label>
+            <input id="contactNewsletterTitleInput" name="contactNewsletterTitle" type="text" required>
+
+            <label for="contactNewsletterLeadInput">Nyhetsbrev tekst</label>
+            <textarea id="contactNewsletterLeadInput" name="contactNewsletterLead" rows="3" required></textarea>
+          </details>
+
+          <button class="btn btn-primary" type="submit">Lagre sideinnhold</button>
+          <p id="contentStatus" class="status" aria-live="polite"></p>
+        </form>
+      </article>
+
+      <article class="section-card form-card reveal">
+        <div class="section-head">
+          <p class="kicker">Aktiviteter</p>
+          <h2>Legg til eller rediger aktivitet</h2>
+          <p>Aktivitetene vises automatisk på forsiden under "Annonser og aktiviteter".</p>
+        </div>
+
+        <div class="forms-layout admin-forms-layout">
+          <form id="postForm" novalidate>
+            <input id="postId" name="id" type="hidden">
+
+            <label for="postTitle">Tittel</label>
+            <input id="postTitle" name="title" type="text" required>
+
+            <label for="postSummary">Kort tekst</label>
+            <textarea id="postSummary" name="summary" rows="3" required></textarea>
+
+            <label for="postBody">Detaljer (valgfritt)</label>
+            <textarea id="postBody" name="body" rows="5"></textarea>
+
+            <label for="postCategory">Kategori</label>
+            <select id="postCategory" name="category" required>
+              <option value="">Velg kategori</option>
+              <option value="Aktivitet">Aktivitet</option>
+              <option value="Nyhet">Nyhet</option>
+              <option value="Frivillig">Frivillig</option>
+              <option value="Info">Info</option>
+            </select>
+
+            <label for="postDate">Dato og tid</label>
+            <input id="postDate" name="eventDate" type="datetime-local" required>
+
+            <label for="postLocation">Sted (valgfritt)</label>
+            <input id="postLocation" name="location" type="text" placeholder="f.eks. Sognsvann">
+
+            <div class="row-actions">
+              <button id="savePostBtn" class="btn btn-primary" type="submit">Publiser innlegg</button>
+              <button id="cancelEditBtn" class="btn btn-ghost hidden" type="button">Avbryt redigering</button>
+            </div>
+
+            <p id="postStatus" class="status" aria-live="polite"></p>
+          </form>
+
+          <div>
+            <div class="toolbar">
+              <h3>Eksisterende innlegg</h3>
+              <p id="adminMeta" class="meta-text">Laster...</p>
+            </div>
+            <div id="adminPosts" class="admin-posts" aria-live="polite"></div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>FriVilje Admin © <span class="year"></span></p>
+  </footer>
+</body>
+</html>
