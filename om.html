@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Om FriVilje</title>
+  <meta name="description" content="Les historien bak FriVilje og visjonen om et samfunn der alle kan delta.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body class="page-about">
+  <a class="skip-link" href="#mainContent">Hopp til hovedinnhold</a>
+  <div class="bg-art" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="/index.html" aria-label="FriVilje hjem">
+      <span class="brand-mark" aria-hidden="true">F</span>
+      <span id="brandName" class="brand-text">FriVilje</span>
+    </a>
+
+    <button id="menuToggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="mainNav">
+      Meny
+    </button>
+
+    <nav id="mainNav" class="main-nav" aria-label="Hovedmeny">
+      <a href="/index.html">Hjem</a>
+      <a href="/om.html" aria-current="page">Om FriVilje</a>
+      <a href="/kontakt.html">Kontakt</a>
+    </nav>
+  </header>
+
+  <main id="mainContent" class="page-shell">
+    <section class="section-card hero-subpage" aria-labelledby="aboutTitle">
+      <div class="hero-copy reveal">
+        <p id="aboutKicker" class="kicker">Om prosjektet</p>
+        <h1 id="aboutTitle">Historien bak FriVilje</h1>
+      </div>
+
+      <div class="hero-media reveal">
+        <img
+          id="aboutHeroImage"
+          src="https://images.pexels.com/photos/8556496/pexels-photo-8556496.jpeg?auto=compress&cs=tinysrgb&w=1400"
+          alt="FriVilje løpefellesskap"
+          loading="lazy"
+        >
+      </div>
+    </section>
+
+    <section class="section-card story-layout">
+      <article class="story-text reveal" id="aboutStory">
+        <p id="aboutIntro"><strong>Mitt navn er Ask Edin Goldmann, og dette er min idé.</strong></p>
+        <div id="aboutBody"></div>
+      </article>
+
+      <aside class="quote-panel reveal">
+        <p>"Du hører til her."</p>
+        <span>FriVilje sitt løfte til alle som vil delta.</span>
+      </aside>
+    </section>
+
+    <section class="section-card split-card">
+      <article class="content-card reveal">
+        <h2 id="aboutRunTitle">Norges viktigste løpegruppe</h2>
+        <p id="aboutRunText">
+          Løpegruppen finner du på Strava og Løpevenn under navnet FriVilje.
+          Målet er klart: Vi stiller til start under Oslo Maraton 12. september 2026.
+        </p>
+      </article>
+
+      <article class="content-card accent-card reveal">
+        <h2 id="aboutWhyTitle">Hvorfor vi løper</h2>
+        <p id="aboutWhyText">
+          Dette handler ikke om tid, prestasjon eller perfekte forutsetninger.
+          Det handler om å møte opp. Om fellesskap. Om å vise at deltakelse skal være mulig for flere.
+          Du hører til her.
+        </p>
+        <a id="aboutStravaCta" class="btn btn-strava" href="https://www.strava.com" target="_blank" rel="noreferrer">Se Strava-gruppen</a>
+      </article>
+    </section>
+
+    <section class="section-card photo-grid-wrap" aria-labelledby="aboutMomentsHeading">
+      <div class="section-head reveal">
+        <p class="kicker">Øyeblikk</p>
+        <h2 id="aboutMomentsHeading">Sammen skaper vi tilhørighet</h2>
+      </div>
+      <div class="photo-grid photo-grid-two">
+        <figure class="photo-card reveal">
+          <img src="https://images.pexels.com/photos/11768574/pexels-photo-11768574.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Personer som viser samhold ved å holde hender sammen" loading="lazy">
+        </figure>
+        <figure class="photo-card reveal">
+          <img src="https://images.pexels.com/photos/8172946/pexels-photo-8172946.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Gruppeaktivitet utendørs med fokus på deltakelse" loading="lazy">
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><span id="footerBrand">FriVilje</span> © <span class="year"></span> | <span id="footerTagline">Inkludering, verdighet og fellesskap.</span></p>
+  </footer>
+</body>
+</html>
