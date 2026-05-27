@@ -8,9 +8,9 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script src="app.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260527d">
+  <script src="app.js?v=20260527d" defer></script>
 </head>
 <body class="page-about">
   <a class="skip-link" href="#mainContent">Hopp til hovedinnhold</a>
@@ -33,37 +33,48 @@
     </nav>
   </header>
 
-  <main id="mainContent" class="page-shell">
-    <section class="section-card hero-subpage" aria-labelledby="aboutTitle">
+  <main id="mainContent" class="page-shell about-flow">
+    <section class="hero-sweep about-hero" aria-labelledby="aboutTitle">
       <div class="hero-copy reveal">
         <p id="aboutKicker" class="kicker">Om prosjektet</p>
         <h1 id="aboutTitle">Historien bak FriVilje</h1>
+        <p class="lead-text">Et initiativ for å flytte fokus fra begrensninger til muligheter, og gjøre deltakelse mulig i praksis.</p>
       </div>
 
-      <div class="hero-media reveal">
-        <img
-          id="aboutHeroImage"
-          src="https://images.pexels.com/photos/8556496/pexels-photo-8556496.jpeg?auto=compress&cs=tinysrgb&w=1400"
-          alt="FriVilje løpefellesskap"
-          loading="lazy"
-        >
+      <div class="hero-collage reveal">
+        <figure class="collage-main">
+          <img
+            id="aboutHeroImage"
+            src="https://images.pexels.com/photos/8556496/pexels-photo-8556496.jpeg?auto=compress&cs=tinysrgb&w=1800"
+            alt="FriVilje løpefellesskap"
+            loading="lazy"
+          >
+        </figure>
+        <div class="hero-note">
+          <p>FriVilje sitt løfte</p>
+          <strong>Du hører til her.</strong>
+        </div>
       </div>
     </section>
 
-    <section class="section-card story-layout">
-      <article class="story-text reveal" id="aboutStory">
-        <p id="aboutIntro"><strong>Mitt navn er Ask Edin Goldmann, og dette er min idé.</strong></p>
-        <div id="aboutBody"></div>
+    <section class="editorial-cascade">
+      <article class="editorial-main reveal">
+        <p id="aboutIntro" class="editorial-intro"><strong>Mitt navn er Ask Edin Goldmann, og dette er min idé.</strong></p>
+        <div id="aboutBody" class="editorial-body"></div>
       </article>
 
-      <aside class="quote-panel reveal">
-        <p>"Du hører til her."</p>
-        <span>FriVilje sitt løfte til alle som vil delta.</span>
+      <aside class="editorial-side reveal" aria-label="Kjernepunkter">
+        <h2>Hva FriVilje utfordrer</h2>
+        <ul>
+          <li>Fra «Hva kan ikke dette mennesket?» til «Hva skal til for at dette mennesket kan delta?»</li>
+          <li>Fra teori om inkludering til praktisk deltakelse.</li>
+          <li>Fra utenforskap til fellesskap, mestring og verdighet.</li>
+        </ul>
       </aside>
     </section>
 
-    <section class="section-card split-card">
-      <article class="content-card reveal">
+    <section class="run-duet">
+      <article class="duet-pane reveal">
         <h2 id="aboutRunTitle">Norges viktigste løpegruppe</h2>
         <p id="aboutRunText">
           Løpegruppen finner du på Strava og Løpevenn under navnet FriVilje.
@@ -71,7 +82,7 @@
         </p>
       </article>
 
-      <article class="content-card accent-card reveal">
+      <article class="duet-pane duet-pane-accent reveal">
         <h2 id="aboutWhyTitle">Hvorfor vi løper</h2>
         <p id="aboutWhyText">
           Dette handler ikke om tid, prestasjon eller perfekte forutsetninger.
@@ -82,17 +93,21 @@
       </article>
     </section>
 
-    <section class="section-card photo-grid-wrap" aria-labelledby="aboutMomentsHeading">
-      <div class="section-head reveal">
+    <section class="about-river" aria-labelledby="aboutMomentsHeading">
+      <div class="river-copy reveal">
         <p class="kicker">Øyeblikk</p>
         <h2 id="aboutMomentsHeading">Sammen skaper vi tilhørighet</h2>
       </div>
-      <div class="photo-grid photo-grid-two">
-        <figure class="photo-card reveal">
-          <img src="https://images.pexels.com/photos/11768574/pexels-photo-11768574.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Personer som viser samhold ved å holde hender sammen" loading="lazy">
+
+      <div class="river-track">
+        <figure class="river-image reveal">
+          <img src="https://images.pexels.com/photos/11768574/pexels-photo-11768574.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Personer som viser samhold ved å holde hender sammen" loading="lazy">
         </figure>
-        <figure class="photo-card reveal">
-          <img src="https://images.pexels.com/photos/8172946/pexels-photo-8172946.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Gruppeaktivitet utendørs med fokus på deltakelse" loading="lazy">
+        <figure class="river-image reveal">
+          <img src="https://images.pexels.com/photos/8172946/pexels-photo-8172946.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Gruppeaktivitet utendørs med fokus på deltakelse" loading="lazy">
+        </figure>
+        <figure class="river-image reveal">
+          <img src="https://images.pexels.com/photos/6456145/pexels-photo-6456145.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="To deltakere som går sammen i rolig tempo" loading="lazy">
         </figure>
       </div>
     </section>
