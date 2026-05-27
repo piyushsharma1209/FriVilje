@@ -10,6 +10,10 @@ const KEYS = {
 
 const ADMIN_USER = String(process.env.ADMIN_USER || "frivilje").trim();
 const ADMIN_PASSWORD = String(process.env.ADMIN_PASSWORD || "friVilje2026").trim();
+const CONTACT_EMAIL = String(process.env.CONTACT_EMAIL || "post@frivilje.com").trim().toLowerCase();
+const RESEND_API_KEY = String(process.env.RESEND_API_KEY || "").trim();
+const RESEND_FROM_EMAIL = String(process.env.RESEND_FROM_EMAIL || "").trim();
+const RESEND_API_URL = "https://api.resend.com/emails";
 const memoryStore = new Map();
 let activeLambdaEvent = null;
 
@@ -32,7 +36,11 @@ exports.handler = async function handler(event) {
         service: "frivilje-netlify-api",
         now: new Date().toISOString(),
         storageMode,
-        storageError
+        storageError,
+        notifications: {
+          contactEmail: CONTACT_EMAIL || "",
+          resendConfigured: canUseResend()
+        }
       });
     }
 
@@ -83,6 +91,20 @@ exports.handler = async function handler(event) {
 
     if (method === "POST" && path === "/newsletter") {
       return handleCreateNewsletter(event);
+    }
+
+    if (method === "GET" && path === "/inquiries") {
+      if (!isAdminRequest(event)) {
+        return sendJson(401, { ok: false, error: "Uautorisert. Oppgi admin-bruker og passord." });
+      }
+      return handleGetInquiries();
+    }
+
+    if (method === "GET" && path === "/newsletter") {
+      if (!isAdminRequest(event)) {
+        return sendJson(401, { ok: false, error: "Uautorisert. Oppgi admin-bruker og passord." });
+      }
+      return handleGetNewsletter();
     }
 
     return sendJson(404, { ok: false, error: "Not found" });
@@ -142,6 +164,18 @@ async function handleGetPosts() {
 async function handleGetSiteContent() {
   const content = await readSiteContent();
   return sendJson(200, { ok: true, content });
+}
+
+async function handleGetInquiries() {
+  const inquiries = await readInquiries();
+  inquiries.sort((a, b) => toTimestamp(b.createdAt) - toTimestamp(a.createdAt));
+  return sendJson(200, { ok: true, inquiries });
+}
+
+async function handleGetNewsletter() {
+  const subscribers = await readNewsletter();
+  subscribers.sort((a, b) => toTimestamp(b.createdAt) - toTimestamp(a.createdAt));
+  return sendJson(200, { ok: true, subscribers });
 }
 
 async function handleUpdateSiteContent(event) {
@@ -230,15 +264,20 @@ async function handleCreateInquiry(event) {
   try {
     const payload = sanitizeInquiry(readJsonBody(event));
     const inquiries = await readInquiries();
-    const inquiry = {
+    const baseInquiry = {
       id: createId(),
       ...payload,
       createdAt: new Date().toISOString()
     };
+    const delivery = await sendInquiryNotification(baseInquiry);
+    const inquiry = {
+      ...baseInquiry,
+      delivery: summarizeDelivery(delivery)
+    };
 
     inquiries.push(inquiry);
     await writeInquiries(inquiries);
-    return sendJson(201, { ok: true, inquiry });
+    return sendJson(201, { ok: true, inquiry, delivery });
   } catch (error) {
     return sendHandledError(error, "Kunne ikke sende forespørselen.");
   }
@@ -254,17 +293,182 @@ async function handleCreateNewsletter(event) {
       return sendJson(200, { ok: true, alreadyExists: true, subscriber: existing });
     }
 
-    const subscriber = {
+    const baseSubscriber = {
       id: createId(),
       ...payload,
       createdAt: new Date().toISOString()
     };
+    const delivery = await sendNewsletterNotification(baseSubscriber);
+    const subscriber = {
+      ...baseSubscriber,
+      delivery: summarizeDelivery(delivery)
+    };
 
     list.push(subscriber);
     await writeNewsletter(list);
-    return sendJson(201, { ok: true, alreadyExists: false, subscriber });
+    return sendJson(201, { ok: true, alreadyExists: false, subscriber, delivery });
   } catch (error) {
     return sendHandledError(error, "Kunne ikke registrere nyhetsbrev-påmelding.");
+  }
+}
+
+async function sendInquiryNotification(inquiry) {
+  if (!CONTACT_EMAIL) {
+    return {
+      delivered: false,
+      configured: false,
+      provider: "none",
+      reason: "CONTACT_EMAIL mangler."
+    };
+  }
+
+  const subject = `Ny henvendelse fra ${inquiry.name}`;
+  const text = [
+    "Ny henvendelse fra FriVilje-nettsiden",
+    "",
+    `Navn: ${inquiry.name}`,
+    `E-post: ${inquiry.email}`,
+    `Tema: ${inquiry.type}`,
+    `Tid: ${inquiry.createdAt}`,
+    "",
+    "Melding:",
+    inquiry.message
+  ].join("\n");
+
+  const html = `
+    <h2>Ny henvendelse fra FriVilje-nettsiden</h2>
+    <p><strong>Navn:</strong> ${escapeHtml(inquiry.name)}</p>
+    <p><strong>E-post:</strong> ${escapeHtml(inquiry.email)}</p>
+    <p><strong>Tema:</strong> ${escapeHtml(inquiry.type)}</p>
+    <p><strong>Tid:</strong> ${escapeHtml(inquiry.createdAt)}</p>
+    <p><strong>Melding:</strong></p>
+    <pre style="white-space:pre-wrap;font-family:inherit;">${escapeHtml(inquiry.message)}</pre>
+  `;
+
+  return sendAdminEmail({
+    subject,
+    text,
+    html,
+    replyTo: inquiry.email
+  });
+}
+
+async function sendNewsletterNotification(subscriber) {
+  if (!CONTACT_EMAIL) {
+    return {
+      delivered: false,
+      configured: false,
+      provider: "none",
+      reason: "CONTACT_EMAIL mangler."
+    };
+  }
+
+  const subject = "Ny påmelding til FriVilje-oppdateringer";
+  const text = [
+    "Ny oppdateringspåmelding fra FriVilje-nettsiden",
+    "",
+    `Navn: ${subscriber.name || "(ikke oppgitt)"}`,
+    `E-post: ${subscriber.email}`,
+    `Tid: ${subscriber.createdAt}`
+  ].join("\n");
+
+  const html = `
+    <h2>Ny oppdateringspåmelding fra FriVilje-nettsiden</h2>
+    <p><strong>Navn:</strong> ${escapeHtml(subscriber.name || "(ikke oppgitt)")}</p>
+    <p><strong>E-post:</strong> ${escapeHtml(subscriber.email)}</p>
+    <p><strong>Tid:</strong> ${escapeHtml(subscriber.createdAt)}</p>
+  `;
+
+  return sendAdminEmail({
+    subject,
+    text,
+    html,
+    replyTo: subscriber.email
+  });
+}
+
+async function sendAdminEmail({ subject, text, html, replyTo }) {
+  if (!canUseResend()) {
+    return {
+      delivered: false,
+      configured: false,
+      provider: "none",
+      reason: "RESEND_API_KEY eller RESEND_FROM_EMAIL mangler."
+    };
+  }
+
+  try {
+    const payload = {
+      from: RESEND_FROM_EMAIL,
+      to: [CONTACT_EMAIL],
+      subject: String(subject || "Ny melding fra FriVilje"),
+      text: String(text || ""),
+      html: String(html || "")
+    };
+
+    if (replyTo) {
+      payload.reply_to = String(replyTo);
+    }
+
+    const response = await fetch(RESEND_API_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await readJsonSafe(response);
+
+    if (!response.ok) {
+      const message = String(result?.error?.message || result?.message || `HTTP ${response.status}`);
+      console.error("Email delivery failed:", message);
+      return {
+        delivered: false,
+        configured: true,
+        provider: "resend",
+        reason: message
+      };
+    }
+
+    return {
+      delivered: true,
+      configured: true,
+      provider: "resend",
+      id: String(result?.id || "")
+    };
+  } catch (error) {
+    console.error("Email delivery exception:", error);
+    return {
+      delivered: false,
+      configured: true,
+      provider: "resend",
+      reason: String(error?.message || error)
+    };
+  }
+}
+
+function canUseResend() {
+  return Boolean(RESEND_API_KEY && RESEND_FROM_EMAIL && CONTACT_EMAIL);
+}
+
+function summarizeDelivery(delivery) {
+  const safe = delivery && typeof delivery === "object" ? delivery : {};
+  return {
+    delivered: Boolean(safe.delivered),
+    configured: Boolean(safe.configured),
+    provider: cleanText(safe.provider, 40) || "none",
+    reason: cleanText(safe.reason, 300),
+    attemptedAt: new Date().toISOString()
+  };
+}
+
+async function readJsonSafe(response) {
+  try {
+    return await response.json();
+  } catch {
+    return {};
   }
 }
 
@@ -661,6 +865,15 @@ function cleanEmail(value) {
 
   const ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email);
   return ok ? email.slice(0, 240) : "";
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 function toTimestamp(value) {
