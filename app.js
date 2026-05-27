@@ -462,7 +462,7 @@ async function requestJson(url, options = {}, credentials = "same-origin") {
   if (!response.ok || data.ok === false) {
     const error = new Error(data.error || "Serverfeil");
     error.status = response.status;
-    error.retryable = response.status === 404;
+    error.retryable = response.status === 404 || response.status >= 500;
     throw error;
   }
 
