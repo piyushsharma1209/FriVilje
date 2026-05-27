@@ -8,9 +8,9 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script src="app.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260527d">
+  <script src="app.js?v=20260527d" defer></script>
 </head>
 <body class="page-contact">
   <a class="skip-link" href="#mainContent">Hopp til hovedinnhold</a>
@@ -33,28 +33,35 @@
     </nav>
   </header>
 
-  <main id="mainContent" class="page-shell">
-    <section class="section-card hero-subpage" aria-labelledby="contactTitle">
+  <main id="mainContent" class="page-shell contact-flow">
+    <section class="hero-sweep contact-hero" aria-labelledby="contactTitle">
       <div class="hero-copy reveal">
         <p id="contactKicker" class="kicker">Kontakt oss</p>
         <h1 id="contactTitle">Spørsmål, forespørsel eller samarbeid</h1>
         <p id="contactLead" class="lead-text">Send oss en melding, så svarer vi så fort vi kan.</p>
+        <p class="hero-mail">Alle henvendelser går til <a href="mailto:post@frivilje.com">post@frivilje.com</a>.</p>
       </div>
 
-      <div class="hero-media reveal">
-        <img
-          id="contactHeroImage"
-          src="https://images.pexels.com/photos/6339459/pexels-photo-6339459.jpeg?auto=compress&cs=tinysrgb&w=1400"
-          alt="FriVilje fellesskap"
-          loading="lazy"
-        >
+      <div class="hero-collage reveal">
+        <figure class="collage-main">
+          <img
+            id="contactHeroImage"
+            src="https://images.pexels.com/photos/6339459/pexels-photo-6339459.jpeg?auto=compress&cs=tinysrgb&w=1800"
+            alt="FriVilje fellesskap"
+            loading="lazy"
+          >
+        </figure>
       </div>
     </section>
 
-    <section class="section-card contact-grid">
-      <article class="form-card reveal">
+    <section class="forms-wave" aria-label="Kontakt- og påmeldingsskjema">
+      <article class="form-orbit reveal">
         <h2 id="contactInquiryTitle">Forespørsel</h2>
-        <form id="inquiryForm" novalidate>
+
+        <form id="inquiryForm" name="frivilje-kontakt" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="frivilje-kontakt">
+          <input type="hidden" name="bot-field">
+
           <label for="inquiryName">Navn</label>
           <input id="inquiryName" name="name" type="text" autocomplete="name" required>
 
@@ -64,9 +71,9 @@
           <label for="inquiryType">Tema</label>
           <select id="inquiryType" name="type" required>
             <option value="">Velg tema</option>
-            <option value="general">Generelt spørsmål</option>
-            <option value="activity">Deltakelse i aktivitet</option>
-            <option value="partnership">Samarbeid</option>
+            <option value="Generelt spørsmål">Generelt spørsmål</option>
+            <option value="Deltakelse i aktivitet">Deltakelse i aktivitet</option>
+            <option value="Samarbeid">Samarbeid</option>
           </select>
 
           <label for="inquiryMessage">Melding</label>
@@ -77,11 +84,14 @@
         </form>
       </article>
 
-      <article id="oppdateringer" class="form-card highlight-card reveal">
+      <article id="oppdateringer" class="form-orbit form-orbit-highlight reveal">
         <h2 id="contactNewsletterTitle">Få oppdateringer på e-post</h2>
         <p id="contactNewsletterLead">Få invitasjoner til aktiviteter, annonser og nyheter fra FriVilje.</p>
 
-        <form id="newsletterForm" novalidate>
+        <form id="newsletterForm" name="frivilje-oppdateringer" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="frivilje-oppdateringer">
+          <input type="hidden" name="bot-field">
+
           <label for="newsletterName">Navn (valgfritt)</label>
           <input id="newsletterName" name="name" type="text" autocomplete="name">
 
@@ -94,13 +104,19 @@
       </article>
     </section>
 
-    <section class="section-card contact-support" aria-labelledby="accessibilityHeading">
-      <div class="content-card reveal">
+    <section class="support-spline" aria-labelledby="accessibilityHeading">
+      <div class="support-copy reveal">
         <p class="kicker">Tilgjengelighet</p>
-        <h2 id="accessibilityHeading">Vi tilrettelegger for deltakelse</h2>
-        <p>Har du behov for tilpasning i aktivitetene, kan du skrive det i meldingen. Vi svarer med forslag slik at flere kan delta trygt og på egne premisser.</p>
+        <h2 id="accessibilityHeading">UU og tilrettelegging i fokus</h2>
+        <p>Har du behov for tilpasning i aktivitetene, skriver du det i meldingen. Vi svarer med konkrete forslag slik at flere kan delta trygt og på egne premisser.</p>
+        <ul>
+          <li>Kontakt: <a href="mailto:post@frivilje.com">post@frivilje.com</a></li>
+          <li>Strava: FriVilje</li>
+          <li>Mål: Oslo Maraton 12. september 2026</li>
+        </ul>
       </div>
-      <figure class="photo-card reveal">
+
+      <figure class="support-image reveal">
         <img src="https://images.pexels.com/photos/11440885/pexels-photo-11440885.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Deltakere i rolig gruppeøkt med fokus på tilrettelegging" loading="lazy">
       </figure>
     </section>
