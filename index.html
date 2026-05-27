@@ -8,9 +8,9 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script src="app.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260527d">
+  <script src="app.js?v=20260527d" defer></script>
 </head>
 <body class="page-home">
   <a class="skip-link" href="#mainContent">Hopp til hovedinnhold</a>
@@ -33,8 +33,8 @@
     </nav>
   </header>
 
-  <main id="mainContent" class="page-shell">
-    <section class="section-card hero-stage" aria-labelledby="homeTitle">
+  <main id="mainContent" class="page-shell home-flow">
+    <section class="hero-sweep" aria-labelledby="homeTitle">
       <div class="hero-copy reveal">
         <p id="homeKicker" class="kicker">Norges viktigste løpefellesskap</p>
         <h1 id="homeTitle">Et fellesskap der alle kan delta</h1>
@@ -48,121 +48,102 @@
           <a id="homeSecondaryCta" class="btn btn-strava" href="https://www.strava.com" target="_blank" rel="noreferrer">Bli med i Strava-gruppen</a>
         </div>
 
-        <div class="hero-stats" aria-label="Nøkkelinformasjon">
-          <article class="stat-chip">
-            <p id="homeStat1Title">12. sep 2026</p>
-            <span id="homeStat1Text">Oslo Maraton</span>
-          </article>
-          <article class="stat-chip">
-            <p id="homeStat2Title">For alle nivåer</p>
-            <span id="homeStat2Text">Ingen krav til fart</span>
-          </article>
-          <article class="stat-chip">
-            <p id="homeStat3Title">Fellesskap først</p>
-            <span id="homeStat3Text">Vi går og løper sammen</span>
-          </article>
-        </div>
+        <p class="hero-mail">
+          Alle henvendelser: <a href="mailto:post@frivilje.com">post@frivilje.com</a>
+        </p>
       </div>
 
-      <div class="hero-media reveal">
-        <img
-          id="homeHeroImage"
-          src="https://images.pexels.com/photos/8556686/pexels-photo-8556686.jpeg?auto=compress&cs=tinysrgb&w=1600"
-          alt="Løpegruppe i fellesskap"
-          loading="eager"
-        >
-        <div class="hero-overlay">
-          <p class="overlay-label">Neste mål</p>
+      <div class="hero-collage reveal" aria-label="Bilder fra fellesskapet">
+        <figure class="collage-main">
+          <img
+            id="homeHeroImage"
+            src="https://images.pexels.com/photos/8556686/pexels-photo-8556686.jpeg?auto=compress&cs=tinysrgb&w=1800"
+            alt="Løpegruppe i fellesskap"
+            loading="eager"
+          >
+        </figure>
+        <figure class="collage-float">
+          <img
+            id="homeFeatureImage"
+            src="https://images.pexels.com/photos/1727717/pexels-photo-1727717.jpeg?auto=compress&cs=tinysrgb&w=1600"
+            alt="Løpere som støtter hverandre"
+            loading="lazy"
+          >
+        </figure>
+        <div class="hero-note">
+          <p>Neste fellesmål</p>
           <strong>Oslo Maraton 12. september 2026</strong>
         </div>
       </div>
     </section>
 
-    <section class="impact-strip reveal" aria-label="FriVilje budskap">
-      <p>
-        FriVilje handler om deltakelse i praksis. Ingen står alene. Ingen står utenfor.
-      </p>
+    <section class="metric-ribbon reveal" aria-label="Nøkkelinformasjon">
+      <article class="metric-pill">
+        <p id="homeStat1Title">12. sep 2026</p>
+        <span id="homeStat1Text">Oslo Maraton</span>
+      </article>
+      <article class="metric-pill">
+        <p id="homeStat2Title">For alle nivåer</p>
+        <span id="homeStat2Text">Ingen krav til fart</span>
+      </article>
+      <article class="metric-pill">
+        <p id="homeStat3Title">Fellesskap først</p>
+        <span id="homeStat3Text">Vi går og løper sammen</span>
+      </article>
     </section>
 
-    <section id="annonser" class="section-card" aria-labelledby="announcementsHeading">
-      <div class="section-head reveal">
+    <section id="annonser" class="activity-arc" aria-labelledby="announcementsHeading">
+      <div class="activity-intro reveal">
         <p class="kicker">Siste nytt</p>
         <h2 id="announcementsHeading">Annonser og aktiviteter</h2>
-        <p>Her deler vi oppdateringer om løp, fellesøkter og arrangementer.</p>
+        <p>Her deler vi løp, fellesøkter og arrangementer. Alt kan oppdateres av admin uten koding.</p>
+        <p class="activity-contact">Spørsmål? <a href="mailto:post@frivilje.com">post@frivilje.com</a></p>
       </div>
 
-      <div class="toolbar reveal">
-        <button id="refreshPostsBtn" class="btn btn-soft" type="button">Oppdater</button>
-        <p id="postsMeta" class="meta-text">Laster innlegg...</p>
-      </div>
-
-      <div id="postsContainer" class="posts-grid" aria-live="polite"></div>
-    </section>
-
-    <section class="section-card feature-spotlight">
-      <div class="feature-media reveal">
-        <img
-          id="homeFeatureImage"
-          src="https://images.pexels.com/photos/1727717/pexels-photo-1727717.jpeg?auto=compress&cs=tinysrgb&w=1400"
-          alt="Løpere som støtter hverandre"
-          loading="lazy"
-        >
-      </div>
-
-      <div class="feature-copy reveal">
-        <article class="content-card">
-          <h3 id="homeFeature1Title">Norges viktigste løpegruppe</h3>
-          <p id="homeFeature1Text">
-            Løpegruppen finner du på Strava og Løpevenn under navnet FriVilje.
-            Her handler det ikke om prestisje, men om å møte opp og løfte hverandre.
-          </p>
-        </article>
-
-        <article class="content-card accent-card">
-          <h3 id="homeFeature2Title">Vil du bli med?</h3>
-          <p id="homeFeature2Text">
-            Vi ønsker nye deltakere, frivillige og samarbeidspartnere velkommen.
-            Ta kontakt, så finner vi en måte å delta på som passer deg.
-          </p>
-          <a id="homeFeatureCta" class="btn btn-ghost" href="/kontakt.html">Gå til kontakt</a>
-        </article>
+      <div class="activity-stream reveal">
+        <div class="stream-toolbar">
+          <button id="refreshPostsBtn" class="btn btn-soft" type="button">Oppdater liste</button>
+          <p id="postsMeta" class="meta-text">Laster innlegg...</p>
+        </div>
+        <div id="postsContainer" class="posts-grid" aria-live="polite"></div>
       </div>
     </section>
 
-    <section class="section-card photo-grid-wrap" aria-labelledby="galleryHeading">
-      <div class="section-head reveal">
+    <section class="mission-wave" aria-labelledby="homeFeature1Title">
+      <article class="mission-pane reveal">
+        <h2 id="homeFeature1Title">Norges viktigste løpegruppe</h2>
+        <p id="homeFeature1Text">
+          Løpegruppen finner du på Strava og Løpevenn under navnet FriVilje.
+          Her handler det ikke om prestisje, men om å møte opp og løfte hverandre.
+        </p>
+      </article>
+
+      <article class="mission-pane mission-pane-accent reveal">
+        <h3 id="homeFeature2Title">Vil du bli med?</h3>
+        <p id="homeFeature2Text">
+          Vi ønsker nye deltakere, frivillige og samarbeidspartnere velkommen.
+          Ta kontakt, så finner vi en måte å delta på som passer deg.
+        </p>
+        <a id="homeFeatureCta" class="btn btn-ghost" href="/kontakt.html">Gå til kontakt</a>
+      </article>
+    </section>
+
+    <section class="photo-river" aria-labelledby="riverHeading">
+      <div class="river-copy reveal">
         <p class="kicker">Fellesskap i praksis</p>
-        <h2 id="galleryHeading">Litt av stemningen i FriVilje</h2>
+        <h2 id="riverHeading">Når døra åpnes, deltar flere</h2>
       </div>
-      <div class="photo-grid">
-        <figure class="photo-card reveal">
-          <img src="https://images.pexels.com/photos/8556496/pexels-photo-8556496.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Deltakere som varmer opp sammen utendørs" loading="lazy">
+      <div class="river-track">
+        <figure class="river-image reveal">
+          <img src="https://images.pexels.com/photos/8436746/pexels-photo-8436746.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="To personer som støtter hverandre før trening" loading="lazy">
         </figure>
-        <figure class="photo-card reveal">
-          <img src="https://images.pexels.com/photos/6339343/pexels-photo-6339343.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Gruppe som trener sammen i et lyst treningsrom" loading="lazy">
+        <figure class="river-image reveal">
+          <img src="https://images.pexels.com/photos/6647052/pexels-photo-6647052.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Løpere som smiler og løper sammen" loading="lazy">
         </figure>
-        <figure class="photo-card reveal">
-          <img src="https://images.pexels.com/photos/7363302/pexels-photo-7363302.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Fellesskapsøkt ute med fokus på deltakelse og mestring" loading="lazy">
+        <figure class="river-image reveal">
+          <img src="https://images.pexels.com/photos/4498606/pexels-photo-4498606.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Deltakere i samtale etter en fellesøkt" loading="lazy">
         </figure>
       </div>
-    </section>
-
-    <section class="section-card journey-grid">
-      <article class="journey-step reveal">
-        <p class="step-number">01</p>
-        <h3>Meld deg inn</h3>
-        <p>Start med Strava-gruppen eller kontakt oss direkte.</p>
-      </article>
-      <article class="journey-step reveal">
-        <p class="step-number">02</p>
-        <h3>Møt opp sammen</h3>
-        <p>Vi tilpasser tempo og nivå slik at flere kan delta samtidig.</p>
-      </article>
-      <article class="journey-step reveal">
-        <p class="step-number">03</p>
-        <h3>Bygg fellesskap</h3>
-        <p>Aktivitetene gir mestring, vennskap og nye muligheter i hverdagen.</p>
-      </article>
     </section>
   </main>
 
