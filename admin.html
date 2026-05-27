@@ -43,7 +43,7 @@
         <input id="adminUserInput" name="adminUser" type="text" autocomplete="username" placeholder="frivilje">
 
         <label for="adminPasswordInput">Admin-passord (valgfritt)</label>
-        <input id="adminPasswordInput" name="adminPassword" type="password" autocomplete="current-password" placeholder="Skriv passord hvis du bruker Live Server">
+        <input id="adminPasswordInput" name="adminPassword" type="password" autocomplete="current-password" placeholder="Skriv passord for admin API">
 
         <div class="row-actions">
           <button class="btn btn-soft" type="submit">Koble til API</button>
@@ -54,8 +54,8 @@
 
       <div class="admin-tip">
         <strong>Tips</strong>
-        <p>Hvis du åpner siden med VS Code Live Server (ofte port 5500), sett API-adresse til `http://127.0.0.1:8080/api`.</p>
-        <p>Hvis du åpner via `/admin` på backend, kan du la innloggingsfeltene stå tomme.</p>
+        <p>På Netlify: bruk API-adresse `https://ditt-domene.netlify.app/api` og skriv inn admin-bruker/passord før lagring.</p>
+        <p>Lokalt via Node-server: bruk API-adresse `http://127.0.0.1:8080/api` og samme admin-bruker/passord.</p>
         <p>Her redigerer du eksisterende felter på nettsiden. Nye seksjoner opprettes ikke her.</p>
       </div>
     </aside>
