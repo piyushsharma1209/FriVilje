@@ -4,6 +4,8 @@ const ADMIN_AUTH_STORAGE_KEY = "frivilje_admin_basic_auth";
 
 const state = {
   posts: [],
+  inquiries: [],
+  subscribers: [],
   editingId: "",
   apiBase: "",
   authHeader: ""
@@ -19,6 +21,10 @@ const elements = {
   cancelEditBtn: document.getElementById("cancelEditBtn"),
   adminPosts: document.getElementById("adminPosts"),
   adminMeta: document.getElementById("adminMeta"),
+  refreshSubmissionsBtn: document.getElementById("refreshSubmissionsBtn"),
+  submissionMeta: document.getElementById("submissionMeta"),
+  adminInquiries: document.getElementById("adminInquiries"),
+  adminSubscribers: document.getElementById("adminSubscribers"),
 
   postId: document.getElementById("postId"),
   postTitle: document.getElementById("postTitle"),
@@ -53,7 +59,7 @@ async function initialize() {
   if (elements.postDate && !elements.postDate.value) {
     elements.postDate.value = toInputDateTime(new Date().toISOString());
   }
-  await Promise.all([loadContentForm(), loadPosts()]);
+  await Promise.all([loadContentForm(), loadPosts(), loadSubmissions()]);
 }
 
 function setYear() {
@@ -86,6 +92,9 @@ function bind() {
 
   elements.postForm?.addEventListener("submit", handlePostSubmit);
   elements.cancelEditBtn?.addEventListener("click", resetPostForm);
+  elements.refreshSubmissionsBtn?.addEventListener("click", () => {
+    loadSubmissions();
+  });
 
   setupImagePreview("homeHeroImage", "homeHeroImageAlt", elements.homeHeroPreview);
   setupImagePreview("homeFeatureImage", "homeFeatureImageAlt", elements.homeFeaturePreview);
@@ -242,6 +251,27 @@ async function loadPosts() {
   }
 }
 
+async function loadSubmissions() {
+  setSubmissionMeta("Laster...");
+
+  try {
+    const [inquiryData, newsletterData] = await Promise.all([
+      fetchJson(`${API_ROOT}/inquiries`),
+      fetchJson(`${API_ROOT}/newsletter`)
+    ]);
+
+    state.inquiries = Array.isArray(inquiryData.inquiries) ? inquiryData.inquiries : [];
+    state.subscribers = Array.isArray(newsletterData.subscribers) ? newsletterData.subscribers : [];
+
+    renderInquiries();
+    renderSubscribers();
+    setSubmissionMeta(`${state.inquiries.length} forespørsler | ${state.subscribers.length} påmeldinger`);
+  } catch (error) {
+    renderSubmissionError(error.message || "Kunne ikke laste henvendelser.");
+    setSubmissionMeta("Feil ved lasting");
+  }
+}
+
 function renderAdminPosts() {
   if (!elements.adminPosts) {
     return;
@@ -283,6 +313,84 @@ function renderAdminError(message) {
   }
 
   elements.adminPosts.innerHTML = `<p class="meta-text">${escapeHtml(message)}</p>`;
+}
+
+function renderInquiries() {
+  if (!elements.adminInquiries) {
+    return;
+  }
+
+  if (!state.inquiries.length) {
+    elements.adminInquiries.innerHTML = '<p class="meta-text">Ingen forespørsler enda.</p>';
+    return;
+  }
+
+  elements.adminInquiries.innerHTML = state.inquiries
+    .map((inquiry) => {
+      const delivery = inquiry && typeof inquiry.delivery === "object" ? inquiry.delivery : {};
+      const delivered = Boolean(delivery.delivered);
+      const deliveryText = delivered ? "E-post sendt" : "E-post ikke sendt";
+      const deliveryClass = delivered ? "ok" : "warn";
+      const deliveryReason = delivery.reason ? `<p class="submission-note">${escapeHtml(delivery.reason)}</p>` : "";
+
+      return `
+        <article class="admin-post-item">
+          <div class="post-meta">
+            <span class="delivery-chip ${deliveryClass}">${deliveryText}</span>
+            <span class="post-date">${formatDate(inquiry.createdAt)}</span>
+          </div>
+          <h4>${escapeHtml(inquiry.name || "Uten navn")}</h4>
+          <p><strong>E-post:</strong> <a href="mailto:${escapeHtml(inquiry.email || "")}">${escapeHtml(inquiry.email || "")}</a></p>
+          <p><strong>Tema:</strong> ${escapeHtml(inquiry.type || "Generelt")}</p>
+          <p>${escapeHtml(inquiry.message || "")}</p>
+          ${deliveryReason}
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function renderSubscribers() {
+  if (!elements.adminSubscribers) {
+    return;
+  }
+
+  if (!state.subscribers.length) {
+    elements.adminSubscribers.innerHTML = '<p class="meta-text">Ingen oppmeldinger enda.</p>';
+    return;
+  }
+
+  elements.adminSubscribers.innerHTML = state.subscribers
+    .map((subscriber) => {
+      const delivery = subscriber && typeof subscriber.delivery === "object" ? subscriber.delivery : {};
+      const delivered = Boolean(delivery.delivered);
+      const deliveryText = delivered ? "E-post sendt" : "E-post ikke sendt";
+      const deliveryClass = delivered ? "ok" : "warn";
+      const deliveryReason = delivery.reason ? `<p class="submission-note">${escapeHtml(delivery.reason)}</p>` : "";
+
+      return `
+        <article class="admin-post-item">
+          <div class="post-meta">
+            <span class="delivery-chip ${deliveryClass}">${deliveryText}</span>
+            <span class="post-date">${formatDate(subscriber.createdAt)}</span>
+          </div>
+          <h4>${escapeHtml(subscriber.name || "Uten navn")}</h4>
+          <p><strong>E-post:</strong> <a href="mailto:${escapeHtml(subscriber.email || "")}">${escapeHtml(subscriber.email || "")}</a></p>
+          ${deliveryReason}
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function renderSubmissionError(message) {
+  const html = `<p class="meta-text">${escapeHtml(message)}</p>`;
+  if (elements.adminInquiries) {
+    elements.adminInquiries.innerHTML = html;
+  }
+  if (elements.adminSubscribers) {
+    elements.adminSubscribers.innerHTML = html;
+  }
 }
 
 async function handlePostSubmit(event) {
@@ -349,7 +457,7 @@ function startEdit(id) {
   elements.cancelEditBtn?.classList.remove("hidden");
   setPostStatus(`Redigerer: ${post.title}`);
 
-  document.querySelector(".section-card:last-of-type")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  elements.postForm?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 async function deletePost(id) {
@@ -426,6 +534,12 @@ function setPostStatus(message, isError = false) {
 function setPostMeta(message) {
   if (elements.adminMeta) {
     elements.adminMeta.textContent = message;
+  }
+}
+
+function setSubmissionMeta(message) {
+  if (elements.submissionMeta) {
+    elements.submissionMeta.textContent = message;
   }
 }
 
@@ -691,6 +805,7 @@ function handleConnectionSubmit(event) {
 
   loadContentForm();
   loadPosts();
+  loadSubmissions();
 }
 
 function clearSavedAuth() {
