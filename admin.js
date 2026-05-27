@@ -511,7 +511,7 @@ async function requestJson(url, options = {}, requestOptions = {}) {
     const message = data.error || `Serverfeil (${response.status})`;
     const error = new Error(message);
     error.status = response.status;
-    error.retryable = response.status === 404;
+    error.retryable = response.status === 404 || response.status >= 500;
 
     if (response.status === 401) {
       if (isCrossOriginUrl(url)) {
