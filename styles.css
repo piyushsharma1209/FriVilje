@@ -988,6 +988,41 @@ details[open] summary {
   min-width: 0;
 }
 
+.admin-submissions-layout {
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
+
+.admin-submission-column {
+  min-width: 0;
+}
+
+.submission-note {
+  margin: 0;
+  color: var(--text-1);
+  font-size: 0.9rem;
+}
+
+.delivery-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(171, 204, 245, 0.45);
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.delivery-chip.ok {
+  border-color: rgba(105, 229, 169, 0.6);
+  color: #adffdb;
+}
+
+.delivery-chip.warn {
+  border-color: rgba(255, 190, 117, 0.6);
+  color: #ffd5a0;
+}
+
 .admin-posts {
   margin-top: 0.75rem;
   display: grid;
@@ -1065,6 +1100,10 @@ details[open] summary {
 
   .river-track {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .admin-submissions-layout {
+    grid-template-columns: 1fr;
   }
 }
 
