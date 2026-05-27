@@ -24,7 +24,7 @@ node server.js
 
 Prosjektet bruker:
 
-- `netlify/functions/api.js`
+- `netlify/functions/api.cjs`
 - `netlify.toml` med rewrite fra `/api/*` til funksjonen
 - `@netlify/blobs` for lagring av innlegg/innhold
 
@@ -66,3 +66,12 @@ Hvis du åpner `admin.html` via Live Server (f.eks. `http://127.0.0.1:5500`):
 - `PUT /api/site-content` (admin)
 - `POST /api/inquiries`
 - `POST /api/newsletter`
+
+## Feilsøking (Netlify 502 / lagring)
+
+1. Etter deploy, åpne `https://ditt-domene.netlify.app/api/health`.
+2. Sjekk `storageMode` i svaret:
+   - `netlify-blobs`: alt OK.
+   - `memory-fallback`: API svarer, men vedvarende lagring er ikke aktiv.
+3. Hvis `storageError` sier at `@netlify/blobs` mangler:
+   - deploy via Git-koblet Netlify-prosjekt eller Netlify CLI (ikke bare statisk upload uten build).
