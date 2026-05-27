@@ -74,4 +74,5 @@ Hvis du åpner `admin.html` via Live Server (f.eks. `http://127.0.0.1:5500`):
    - `netlify-blobs`: alt OK.
    - `memory-fallback`: API svarer, men vedvarende lagring er ikke aktiv.
 3. Hvis `storageError` sier at `@netlify/blobs` mangler:
+   - sjekk at `netlify.toml` har `[functions]` med `external_node_modules = ["@netlify/blobs"]`.
    - deploy via Git-koblet Netlify-prosjekt eller Netlify CLI (ikke bare statisk upload uten build).
