@@ -1,0 +1,24 @@
+[
+  {
+    "id": "sample-frivilje-1",
+    "title": "Fellesøkt ved Sognsvann",
+    "summary": "Rolig fellesløp med plass til alle nivåer, etterfulgt av kaffe og prat.",
+    "body": "Vi møtes for en sosial økt der både gående og løpende deltakere er velkommen. Ta med en venn om du vil.",
+    "category": "Aktivitet",
+    "eventDate": "2026-06-10T17:00:00.000Z",
+    "location": "Sognsvann",
+    "createdAt": "2026-05-27T00:00:00.000Z",
+    "updatedAt": "2026-05-27T00:00:00.000Z"
+  },
+  {
+    "id": "80596ec8-ce12-43e9-8149-fc1ebfe2ecee",
+    "title": "Haugesund Løp",
+    "summary": "Haugesund",
+    "body": "",
+    "category": "Aktivitet",
+    "eventDate": "2026-05-31T10:34:00.000Z",
+    "location": "Haugesund",
+    "createdAt": "2026-05-27T10:36:30.977Z",
+    "updatedAt": "2026-05-27T10:36:30.977Z"
+  }
+]
