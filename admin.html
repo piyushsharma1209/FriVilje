@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260527g">
-  <script src="admin.js?v=20260527g" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20260527h">
+  <script src="admin.js?v=20260527h" defer></script>
 </head>
 <body class="page-admin">
   <a class="skip-link" href="#adminMain">Hopp til admin-innhold</a>
@@ -33,6 +33,7 @@
       <nav class="admin-shortcuts" aria-label="Snarveier">
         <a href="#contentForm">Sideinnhold</a>
         <a href="#postForm">Aktiviteter og annonser</a>
+        <a href="#submissionHub">Henvendelser og oppmeldinger</a>
       </nav>
 
       <form id="connectionForm" class="connection-form" novalidate>
@@ -291,6 +292,34 @@
             </div>
             <div id="adminPosts" class="admin-posts" aria-live="polite"></div>
           </div>
+        </div>
+      </article>
+
+      <article id="submissionHub" class="section-card form-card reveal">
+        <div class="section-head">
+          <p class="kicker">Innboks</p>
+          <h2>Henvendelser og oppmeldinger</h2>
+          <p>Her ser du spørsmål fra kontaktskjema og e-poster som er meldt på oppdateringer.</p>
+        </div>
+
+        <div class="toolbar">
+          <h3>Innkommet</h3>
+          <div class="row-actions">
+            <button id="refreshSubmissionsBtn" class="btn btn-soft" type="button">Oppdater</button>
+          </div>
+        </div>
+        <p id="submissionMeta" class="meta-text">Laster...</p>
+
+        <div class="forms-layout admin-submissions-layout">
+          <section class="admin-submission-column">
+            <h3>Forespørsler</h3>
+            <div id="adminInquiries" class="admin-posts" aria-live="polite"></div>
+          </section>
+
+          <section class="admin-submission-column">
+            <h3>Oppdateringer på e-post</h3>
+            <div id="adminSubscribers" class="admin-posts" aria-live="polite"></div>
+          </section>
         </div>
       </article>
     </section>
