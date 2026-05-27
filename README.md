@@ -47,6 +47,19 @@ Legg disse inn i Netlify:
 3. Trykk **Koble til API**.
 4. Nå kan du lagre sideinnhold og opprette/redigere/slette aktiviteter.
 
+## Kontakt og påmelding til e-post
+
+Skjemaene på `/kontakt.html` sender via Netlify Forms med navn:
+
+- `frivilje-kontakt`
+- `frivilje-oppdateringer`
+
+For at alle henvendelser skal gå til `post@frivilje.com`:
+
+1. Gå til Netlify Dashboard → **Forms**.
+2. Åpne **Notifications** for skjemaene over.
+3. Sett mottaker til `post@frivilje.com`.
+
 ## Hvis du bruker VS Code Live Server lokalt
 
 Hvis du åpner `admin.html` via Live Server (f.eks. `http://127.0.0.1:5500`):
